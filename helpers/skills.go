@@ -47,12 +47,12 @@ var ClassSkillCount = map[string]int{
 }
 
 var CasterClasses = map[string]bool{
-	"bard":      true,
-	"cleric":    true,
-	"druid":     true,
-	"paladin":   true,
-	"ranger":    true,
-	"sorcerer":  true,
-	"warlock":   true,
-	"wizard":    true,
+	"bard":     true,
+	"cleric":   true,
+	"druid":    true,
+	"paladin":  true,
+	"ranger":   true,
+	"sorcerer": true,
+	"warlock":  true,
+	"wizard":   true,
 }
