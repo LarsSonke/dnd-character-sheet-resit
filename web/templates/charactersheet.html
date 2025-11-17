@@ -328,6 +328,71 @@
             </tbody>
           </table>
           <textarea></textarea>
+          {{if .CanCastSpells}}
+          <div class="spell-slots" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+            <h4 style="margin-top: 0;">Spell Slots</h4>
+            {{if .CurrentSpellSlots}}
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+              {{if index .SpellSlots 1}}
+              <div style="text-align: center; padding: 5px; background: #f5f5f5; border-radius: 3px;">
+                <strong>Level 1</strong><br>
+                <span style="font-size: 1.2em;">{{index .CurrentSpellSlots 1}}/{{index .SpellSlots 1}}</span>
+              </div>
+              {{end}}
+              {{if index .SpellSlots 2}}
+              <div style="text-align: center; padding: 5px; background: #f5f5f5; border-radius: 3px;">
+                <strong>Level 2</strong><br>
+                <span style="font-size: 1.2em;">{{index .CurrentSpellSlots 2}}/{{index .SpellSlots 2}}</span>
+              </div>
+              {{end}}
+              {{if index .SpellSlots 3}}
+              <div style="text-align: center; padding: 5px; background: #f5f5f5; border-radius: 3px;">
+                <strong>Level 3</strong><br>
+                <span style="font-size: 1.2em;">{{index .CurrentSpellSlots 3}}/{{index .SpellSlots 3}}</span>
+              </div>
+              {{end}}
+              {{if index .SpellSlots 4}}
+              <div style="text-align: center; padding: 5px; background: #f5f5f5; border-radius: 3px;">
+                <strong>Level 4</strong><br>
+                <span style="font-size: 1.2em;">{{index .CurrentSpellSlots 4}}/{{index .SpellSlots 4}}</span>
+              </div>
+              {{end}}
+              {{if index .SpellSlots 5}}
+              <div style="text-align: center; padding: 5px; background: #f5f5f5; border-radius: 3px;">
+                <strong>Level 5</strong><br>
+                <span style="font-size: 1.2em;">{{index .CurrentSpellSlots 5}}/{{index .SpellSlots 5}}</span>
+              </div>
+              {{end}}
+              {{if index .SpellSlots 6}}
+              <div style="text-align: center; padding: 5px; background: #f5f5f5; border-radius: 3px;">
+                <strong>Level 6</strong><br>
+                <span style="font-size: 1.2em;">{{index .CurrentSpellSlots 6}}/{{index .SpellSlots 6}}</span>
+              </div>
+              {{end}}
+              {{if index .SpellSlots 7}}
+              <div style="text-align: center; padding: 5px; background: #f5f5f5; border-radius: 3px;">
+                <strong>Level 7</strong><br>
+                <span style="font-size: 1.2em;">{{index .CurrentSpellSlots 7}}/{{index .SpellSlots 7}}</span>
+              </div>
+              {{end}}
+              {{if index .SpellSlots 8}}
+              <div style="text-align: center; padding: 5px; background: #f5f5f5; border-radius: 3px;">
+                <strong>Level 8</strong><br>
+                <span style="font-size: 1.2em;">{{index .CurrentSpellSlots 8}}/{{index .SpellSlots 8}}</span>
+              </div>
+              {{end}}
+              {{if index .SpellSlots 9}}
+              <div style="text-align: center; padding: 5px; background: #f5f5f5; border-radius: 3px;">
+                <strong>Level 9</strong><br>
+                <span style="font-size: 1.2em;">{{index .CurrentSpellSlots 9}}/{{index .SpellSlots 9}}</span>
+              </div>
+              {{end}}
+            </div>
+            {{else}}
+            <p style="margin: 0;">No spell slots available</p>
+            {{end}}
+          </div>
+          {{end}}
         </div>
       </section>
       <section class="equipment">
