@@ -470,28 +470,8 @@ func (c *CastSpellCommand) Execute() error {
 		return err
 	}
 
-	// Print spell slots (same as view command)
-	if len(character.CurrentSpellSlots) > 0 {
-		fmt.Println("Spell slots:")
-		// Sort spell levels for consistent output
-		levels := make([]int, 0, len(character.CurrentSpellSlots))
-		for level := range character.CurrentSpellSlots {
-			levels = append(levels, level)
-		}
-		// Simple sort
-		for i := 0; i < len(levels)-1; i++ {
-			for j := i + 1; j < len(levels); j++ {
-				if levels[i] > levels[j] {
-					levels[i], levels[j] = levels[j], levels[i]
-				}
-			}
-		}
-		for _, level := range levels {
-			if character.SpellSlots[level] > 0 {
-				fmt.Printf("  Level %d: %d\n", level, character.CurrentSpellSlots[level])
-			}
-		}
-	}
+	// Print updated spell slots
+	printSpellSlots(character)
 
 	return nil
 }

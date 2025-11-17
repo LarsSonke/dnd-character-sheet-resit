@@ -44,13 +44,13 @@ func NewCharacter(name, race, class string, level, str, dex, con, int_, wis, cha
 	default:
 		spellSlots = map[int]int{}
 	}
-	
+
 	// Initialize current spell slots to match max spell slots
 	currentSlots := make(map[int]int)
 	for spellLevel, slots := range spellSlots {
 		currentSlots[spellLevel] = slots
 	}
-	
+
 	return &Character{
 		Name:               name,
 		Race:               race,

@@ -6,6 +6,31 @@ import (
 	"strings"
 )
 
+// printSpellSlots prints spell slots in a consistent format
+func printSpellSlots(char *domain.Character) {
+	if len(char.CurrentSpellSlots) > 0 {
+		fmt.Println("Spell slots:")
+		// Sort spell levels for consistent output
+		levels := make([]int, 0, len(char.CurrentSpellSlots))
+		for level := range char.CurrentSpellSlots {
+			levels = append(levels, level)
+		}
+		// Simple sort
+		for i := 0; i < len(levels)-1; i++ {
+			for j := i + 1; j < len(levels); j++ {
+				if levels[i] > levels[j] {
+					levels[i], levels[j] = levels[j], levels[i]
+				}
+			}
+		}
+		for _, level := range levels {
+			if char.SpellSlots[level] > 0 {
+				fmt.Printf("  Level %d: %d\n", level, char.CurrentSpellSlots[level])
+			}
+		}
+	}
+}
+
 // printCharacterInfo prints character information in the expected format
 func (c *ViewCommand) printCharacterInfo(char *domain.Character) {
 	// Print basic info
@@ -33,27 +58,9 @@ func (c *ViewCommand) printCharacterInfo(char *domain.Character) {
 	}
 
 	// Print spell slots if the character has any
-	if len(char.SpellSlots) > 0 {
-		fmt.Println("Spell slots:")
-		// Sort spell levels for consistent output
-		levels := make([]int, 0, len(char.SpellSlots))
-		for level := range char.SpellSlots {
-			levels = append(levels, level)
-		}
-		// Simple sort
-		for i := 0; i < len(levels)-1; i++ {
-			for j := i + 1; j < len(levels); j++ {
-				if levels[i] > levels[j] {
-					levels[i], levels[j] = levels[j], levels[i]
-				}
-			}
-		}
-		for _, level := range levels {
-			if char.SpellSlots[level] > 0 {
-				fmt.Printf("  Level %d: %d\n", level, char.CurrentSpellSlots[level])
-			}
-		}
+	printSpellSlots(char)
 
+	if len(char.SpellSlots) > 0 {
 		// Print spellcasting stats if character can cast spells
 		if char.IsSpellcaster() {
 			spellAbility := char.SpellcastingAbility()
@@ -74,7 +81,7 @@ func (c *ViewCommand) printCharacterInfo(char *domain.Character) {
 			fmt.Printf("Spell save DC: %d\n", char.SpellSaveDC())
 			fmt.Printf("Spell attack bonus: +%d\n", char.SpellAttackBonus())
 		}
-		
+
 		// Print known spells if the character has any
 		if len(char.KnownSpells) > 0 {
 			fmt.Println("Known spells:")
@@ -82,7 +89,7 @@ func (c *ViewCommand) printCharacterInfo(char *domain.Character) {
 				fmt.Printf("  - %s\n", spell)
 			}
 		}
-		
+
 		// Print prepared spells if the character has any
 		if len(char.PreparedSpells) > 0 {
 			fmt.Println("Prepared spells:")

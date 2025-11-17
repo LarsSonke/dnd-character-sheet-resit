@@ -152,7 +152,7 @@ func NewCharacterTemplateData(char *domain.Character) *CharacterTemplateData {
 		SpellSlots:        char.SpellSlots,
 		CurrentSpellSlots: char.CurrentSpellSlots,
 		KnownSpells:       char.KnownSpells,
-		PreparedSpells: char.PreparedSpells,
+		PreparedSpells:    char.PreparedSpells,
 
 		// Calculate HP
 		HitPointMax: char.MaxHitPoints(),

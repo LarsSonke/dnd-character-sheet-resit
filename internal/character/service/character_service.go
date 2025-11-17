@@ -239,26 +239,26 @@ func (s *CharacterService) PrepareSpell(name, spellName string) error {
 
 // CastSpell casts a spell, consuming the appropriate spell slot
 func (s *CharacterService) CastSpell(name, spellName string) error {
-c, err := s.repo.Load(name)
-if err != nil {
-return err
-}
+	c, err := s.repo.Load(name)
+	if err != nil {
+		return err
+	}
 
-// Check if class can cast spells
-if !c.IsSpellcaster() {
-return errors.New("this class can't cast spells")
-}
+	// Check if class can cast spells
+	if !c.IsSpellcaster() {
+		return errors.New("this class can't cast spells")
+	}
 
-// Get the spell level
-spellLevel := spell.GetSpellLevel(spellName)
+	// Get the spell level
+	spellLevel := spell.GetSpellLevel(spellName)
 
-// Attempt to cast the spell (consumes spell slot)
-if err := c.CastSpell(spellLevel); err != nil {
-return err
-}
+	// Attempt to cast the spell (consumes spell slot)
+	if err := c.CastSpell(spellLevel); err != nil {
+		return err
+	}
 
-// Save the updated character
-return s.repo.Save(c)
+	// Save the updated character
+	return s.repo.Save(c)
 }
 
 // generateSkillProficiencies creates skill list based on background and class using domain logic
