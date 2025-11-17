@@ -32,26 +32,7 @@ type Character struct {
 
 // NewCharacter creates a new Character instance with proper spell slot calculation.
 func NewCharacter(name, race, class string, level, str, dex, con, int_, wis, cha int, background string, skills []string) *Character {
-	var spellSlots map[int]int
-	classLower := strings.ToLower(class)
-	switch classLower {
-	case "wizard", "cleric", "druid", "bard", "sorcerer":
-		spellSlots = FullCasterSpellSlots(level)
-		// Add cantrips (Level 0) for full casters
-		spellSlots[0] = FullCasterCantrips(level)
-	case "paladin", "ranger":
-		spellSlots = HalfCasterSpellSlots(level)
-	default:
-		spellSlots = map[int]int{}
-	}
-
-	// Initialize current spell slots to match max spell slots
-	currentSlots := make(map[int]int)
-	for spellLevel, slots := range spellSlots {
-		currentSlots[spellLevel] = slots
-	}
-
-	return &Character{
+	c := &Character{
 		Name:               name,
 		Race:               race,
 		Class:              class,
@@ -65,9 +46,18 @@ func NewCharacter(name, race, class string, level, str, dex, con, int_, wis, cha
 		Background:         background,
 		ProficiencyBonus:   ProficiencyBonus(level),
 		SkillProficiencies: skills,
-		SpellSlots:         spellSlots,
-		CurrentSpellSlots:  currentSlots,
 	}
+
+	// Calculate spell slots using the centralized method
+	c.SpellSlots = c.GetSpellSlots()
+
+	// Initialize current spell slots to match max spell slots
+	c.CurrentSpellSlots = make(map[int]int)
+	for spellLevel, slots := range c.SpellSlots {
+		c.CurrentSpellSlots[spellLevel] = slots
+	}
+
+	return c
 }
 
 // ProficiencyBonus calculates proficiency bonus based on level (D&D 5e rules)
