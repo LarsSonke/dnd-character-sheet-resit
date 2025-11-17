@@ -29,6 +29,7 @@ func main() {
 	cliApp.Register(cli.NewPrepareSpellCommand(characterService))
 	cliApp.Register(cli.NewLearnSpellCommand(characterService))
 	cliApp.Register(cli.NewCastSpellCommand(characterService))
+	cliApp.Register(cli.NewWebCommand(characterService))
 
 	// Run CLI
 	if err := cliApp.Run(os.Args); err != nil {
