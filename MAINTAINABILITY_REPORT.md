@@ -557,10 +557,12 @@ This implementation demonstrates **professional-grade maintainability** through:
 
 ## Appendix: Complete Git Diff
 
-The complete implementation can be reviewed in the git diff patch file `exam_resit_spell_slots.patch` (3,470 lines), which shows all changes from the baseline commit `717b836` to the final implementation.
+The complete implementation can be reviewed in the git diff patch file `exam_resit_spell_slots.patch` (3,549 lines), which shows all changes from the baseline commit `717b836` to the final implementation.
 
 **Commit history:**
 ```
+977834f Add spell slot display to HTML character sheet template
+b32a39b Update git diff with web command registration (3,470 lines)
 c8a21b7 Add web command registration for HTML character sheet interface
 7750a88 Update MAINTAINABILITY_REPORT.md with complete commit history and git diff reference
 c7f3f2f Fix: Add half plate armor and Unarmored Defense (Barbarian/Monk)
@@ -575,7 +577,7 @@ c7f3f2f Fix: Add half plate armor and Unarmored Defense (Barbarian/Monk)
 - Domain layer: `CastSpell()`, `GetSpellSlots()`, `CurrentSpellSlots` field
 - Service layer: `CastSpell()` orchestration method
 - CLI layer: `CastSpellCommand` implementation
-- Web interface: Web command registration in main.go
+- Web interface: Web command registration + spell slot display in HTML template
 - Helper functions: `printSpellSlots()` for display reuse
 - Bug fixes: Armor Class calculation improvements (plate armor variants, Unarmored Defense)
 
