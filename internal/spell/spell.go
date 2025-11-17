@@ -101,7 +101,7 @@ func GetSpellLevel(spellName string) int {
 		"etherealness": 7, "fire storm": 7, "plane shift": 7,
 
 		// Level 8 spells
-		"power word stun": 8, "maze": 8, "sunburst": 8,
+		"power word stun": 8, "maze": 8, "sunburst": 8, "feeblemind": 8,
 
 		// Level 9 spells
 		"wish": 9, "meteor swarm": 9, "time stop": 9,

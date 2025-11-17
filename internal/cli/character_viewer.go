@@ -50,7 +50,7 @@ func (c *ViewCommand) printCharacterInfo(char *domain.Character) {
 		}
 		for _, level := range levels {
 			if char.SpellSlots[level] > 0 {
-				fmt.Printf("  Level %d: %d\n", level, char.SpellSlots[level])
+				fmt.Printf("  Level %d: %d\n", level, char.CurrentSpellSlots[level])
 			}
 		}
 

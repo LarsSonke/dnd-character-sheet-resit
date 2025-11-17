@@ -90,9 +90,6 @@ func (s *CharacterService) CreateCharacter(req CreateCharacterRequest) (*domain.
 		req.Background, skills,
 	)
 
-	// Assign spell slots based on class and level using domain logic
-	c.SpellSlots = c.GetSpellSlots()
-
 	// Save character
 	if err := s.repo.Save(c); err != nil {
 		return nil, err
@@ -238,6 +235,30 @@ func (s *CharacterService) PrepareSpell(name, spellName string) error {
 
 	c.PreparedSpells = append(c.PreparedSpells, spellName)
 	return s.repo.Save(c)
+}
+
+// CastSpell casts a spell, consuming the appropriate spell slot
+func (s *CharacterService) CastSpell(name, spellName string) error {
+c, err := s.repo.Load(name)
+if err != nil {
+return err
+}
+
+// Check if class can cast spells
+if !c.IsSpellcaster() {
+return errors.New("this class can't cast spells")
+}
+
+// Get the spell level
+spellLevel := spell.GetSpellLevel(spellName)
+
+// Attempt to cast the spell (consumes spell slot)
+if err := c.CastSpell(spellLevel); err != nil {
+return err
+}
+
+// Save the updated character
+return s.repo.Save(c)
 }
 
 // generateSkillProficiencies creates skill list based on background and class using domain logic

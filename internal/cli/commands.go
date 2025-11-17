@@ -423,3 +423,80 @@ func (c *LearnSpellCommand) Execute() error {
 func (c *LearnSpellCommand) Usage() {
 	fmt.Println("  learn-spell -name CHARACTER_NAME -spell SPELL_NAME")
 }
+
+// CastSpellCommand handles spell casting
+type CastSpellCommand struct {
+	*BaseCommand
+	characterService *service.CharacterService
+
+	// Flags
+	name  *string
+	spell *string
+}
+
+// NewCastSpellCommand creates a new cast-spell command
+func NewCastSpellCommand(characterService *service.CharacterService) *CastSpellCommand {
+	cmd := &CastSpellCommand{
+		BaseCommand:      NewBaseCommand("cast-spell"),
+		characterService: characterService,
+	}
+
+	// Define flags
+	cmd.name = cmd.flagSet.String("name", "", "character name (required)")
+	cmd.spell = cmd.flagSet.String("spell", "", "spell name (required)")
+
+	return cmd
+}
+
+// Name returns the command name
+func (c *CastSpellCommand) Name() string {
+	return "cast-spell"
+}
+
+// Execute runs the cast-spell command
+func (c *CastSpellCommand) Execute() error {
+	if *c.name == "" || *c.spell == "" {
+		return fmt.Errorf("name and spell are required")
+	}
+
+	err := c.characterService.CastSpell(*c.name, *c.spell)
+	if err != nil {
+		return err
+	}
+
+	// Load character to display updated spell slots
+	character, err := c.characterService.GetCharacter(*c.name)
+	if err != nil {
+		return err
+	}
+
+	// Print spell slots (same as view command)
+	if len(character.CurrentSpellSlots) > 0 {
+		fmt.Println("Spell slots:")
+		// Sort spell levels for consistent output
+		levels := make([]int, 0, len(character.CurrentSpellSlots))
+		for level := range character.CurrentSpellSlots {
+			levels = append(levels, level)
+		}
+		// Simple sort
+		for i := 0; i < len(levels)-1; i++ {
+			for j := i + 1; j < len(levels); j++ {
+				if levels[i] > levels[j] {
+					levels[i], levels[j] = levels[j], levels[i]
+				}
+			}
+		}
+		for _, level := range levels {
+			if character.SpellSlots[level] > 0 {
+				fmt.Printf("  Level %d: %d\n", level, character.CurrentSpellSlots[level])
+			}
+		}
+	}
+
+	return nil
+}
+
+// Usage prints cast-spell command usage
+func (c *CastSpellCommand) Usage() {
+	fmt.Println("  cast-spell -name CHARACTER_NAME -spell SPELL_NAME")
+}

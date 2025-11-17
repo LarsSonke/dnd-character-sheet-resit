@@ -1,6 +1,9 @@
 package domain
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 // Character represents a D&D 5e character with all their attributes and abilities.
 type Character struct {
@@ -17,7 +20,8 @@ type Character struct {
 	Background         string      `json:"background"`
 	ProficiencyBonus   int         `json:"proficiencyBonus"`
 	SkillProficiencies []string    `json:"skillProficiencies"`
-	SpellSlots         map[int]int `json:"spell_slots"` // key: spell level, value: slots available
+	SpellSlots         map[int]int `json:"spell_slots"`         // key: spell level, value: max slots
+	CurrentSpellSlots  map[int]int `json:"current_spell_slots"` // key: spell level, value: current slots available
 	Weapon             string      `json:"weapon"`
 	WeaponSlot         string      `json:"weapon_slot"`
 	Armor              string      `json:"armor,omitempty"`
@@ -29,14 +33,24 @@ type Character struct {
 // NewCharacter creates a new Character instance with proper spell slot calculation.
 func NewCharacter(name, race, class string, level, str, dex, con, int_, wis, cha int, background string, skills []string) *Character {
 	var spellSlots map[int]int
-	switch class {
-	case "Wizard", "Cleric", "Druid", "Bard", "Sorcerer":
+	classLower := strings.ToLower(class)
+	switch classLower {
+	case "wizard", "cleric", "druid", "bard", "sorcerer":
 		spellSlots = FullCasterSpellSlots(level)
-	case "Paladin", "Ranger":
+		// Add cantrips (Level 0) for full casters
+		spellSlots[0] = FullCasterCantrips(level)
+	case "paladin", "ranger":
 		spellSlots = HalfCasterSpellSlots(level)
 	default:
 		spellSlots = map[int]int{}
 	}
+	
+	// Initialize current spell slots to match max spell slots
+	currentSlots := make(map[int]int)
+	for spellLevel, slots := range spellSlots {
+		currentSlots[spellLevel] = slots
+	}
+	
 	return &Character{
 		Name:               name,
 		Race:               race,
@@ -52,6 +66,7 @@ func NewCharacter(name, race, class string, level, str, dex, con, int_, wis, cha
 		ProficiencyBonus:   ProficiencyBonus(level),
 		SkillProficiencies: skills,
 		SpellSlots:         spellSlots,
+		CurrentSpellSlots:  currentSlots,
 	}
 }
 
@@ -418,4 +433,23 @@ func (cl *Class) GetSkillCount() int {
 	}
 
 	return classSkillCount[strings.ToLower(cl.Name)]
+}
+
+// CastSpell attempts to cast a spell, consuming a spell slot of the appropriate level
+// Returns an error if no spell slot is available
+func (c *Character) CastSpell(spellLevel int) error {
+	// Cantrips (level 0) don't consume spell slots
+	if spellLevel == 0 {
+		return nil
+	}
+
+	// Check if character has current spell slots for this level
+	currentSlots, exists := c.CurrentSpellSlots[spellLevel]
+	if !exists || currentSlots <= 0 {
+		return fmt.Errorf("No spell slot available!")
+	}
+
+	// Consume the spell slot
+	c.CurrentSpellSlots[spellLevel]--
+	return nil
 }

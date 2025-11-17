@@ -73,7 +73,8 @@ type CharacterTemplateData struct {
 	SpellcastingModifier int
 	SpellSaveDC          int
 	SpellAttackBonus     int
-	SpellSlots           map[int]int
+	SpellSlots           map[int]int // Max spell slots
+	CurrentSpellSlots    map[int]int // Current available spell slots
 	KnownSpells          []string
 	PreparedSpells       []string
 
@@ -148,8 +149,9 @@ func NewCharacterTemplateData(char *domain.Character) *CharacterTemplateData {
 		SkillsDisplay:      strings.Join(char.SkillProficiencies, ", "),
 
 		// Spellcasting
-		SpellSlots:     char.SpellSlots,
-		KnownSpells:    char.KnownSpells,
+		SpellSlots:        char.SpellSlots,
+		CurrentSpellSlots: char.CurrentSpellSlots,
+		KnownSpells:       char.KnownSpells,
 		PreparedSpells: char.PreparedSpells,
 
 		// Calculate HP
