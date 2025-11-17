@@ -1,7 +1,9 @@
 package cli
 
 import (
+	"DnD-sheet/internal/character/domain"
 	"DnD-sheet/internal/character/service"
+	"errors"
 	"fmt"
 )
 
@@ -461,6 +463,10 @@ func (c *CastSpellCommand) Execute() error {
 
 	err := c.characterService.CastSpell(*c.name, *c.spell)
 	if err != nil {
+		// Format domain error into user-friendly message
+		if errors.Is(err, domain.ErrNoSpellSlot) {
+			return fmt.Errorf("No spell slot available!")
+		}
 		return err
 	}
 

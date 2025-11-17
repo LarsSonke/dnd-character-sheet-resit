@@ -1,7 +1,6 @@
 package domain
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -444,7 +443,7 @@ func (cl *Class) GetSkillCount() int {
 }
 
 // CastSpell attempts to cast a spell, consuming a spell slot of the appropriate level
-// Returns an error if no spell slot is available
+// Returns ErrNoSpellSlot if no spell slot is available
 func (c *Character) CastSpell(spellLevel int) error {
 	// Cantrips (level 0) don't consume spell slots
 	if spellLevel == 0 {
@@ -454,7 +453,7 @@ func (c *Character) CastSpell(spellLevel int) error {
 	// Check if character has current spell slots for this level
 	currentSlots, exists := c.CurrentSpellSlots[spellLevel]
 	if !exists || currentSlots <= 0 {
-		return fmt.Errorf("No spell slot available!")
+		return ErrNoSpellSlot
 	}
 
 	// Consume the spell slot
