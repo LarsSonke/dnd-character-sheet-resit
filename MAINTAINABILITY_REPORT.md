@@ -557,10 +557,11 @@ This implementation demonstrates **professional-grade maintainability** through:
 
 ## Appendix: Complete Git Diff
 
-The complete implementation can be reviewed in the git diff patch file `exam_resit_spell_slots.patch` (3,549 lines), which shows all changes from the baseline commit `717b836` to the final implementation.
+The complete implementation can be reviewed in the git diff patch file `exam_resit_spell_slots.patch` (3,580 lines), which shows all changes from the baseline commit `717b836` to the final implementation.
 
 **Commit history:**
 ```
+1abf8b3 Refactor: Move error message formatting from domain to presentation layer
 977834f Add spell slot display to HTML character sheet template
 b32a39b Update git diff with web command registration (3,470 lines)
 c8a21b7 Add web command registration for HTML character sheet interface
@@ -574,11 +575,12 @@ c7f3f2f Fix: Add half plate armor and Unarmored Defense (Barbarian/Monk)
 ```
 
 **Key changes include:**
-- Domain layer: `CastSpell()`, `GetSpellSlots()`, `CurrentSpellSlots` field
+- Domain layer: `CastSpell()`, `GetSpellSlots()`, `CurrentSpellSlots` field, structured error types
 - Service layer: `CastSpell()` orchestration method
-- CLI layer: `CastSpellCommand` implementation
+- CLI layer: `CastSpellCommand` implementation with user-friendly error formatting
 - Web interface: Web command registration + spell slot display in HTML template
 - Helper functions: `printSpellSlots()` for display reuse
+- Architecture: Proper separation - domain returns structured errors, presentation formats messages
 - Bug fixes: Armor Class calculation improvements (plate armor variants, Unarmored Defense)
 
 All changes follow the onion architecture pattern with proper separation of concerns.
