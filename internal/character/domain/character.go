@@ -91,15 +91,33 @@ func (c *Character) ArmorClass() int {
 		} else {
 			baseAC = 14 + dexMod
 		}
+	case "half plate", "Half Plate", "half plate armor", "Half Plate Armor":
+		// Medium armor: max +2 dex bonus
+		if dexMod > 2 {
+			baseAC = 15 + 2
+		} else {
+			baseAC = 15 + dexMod
+		}
 	case "chain mail", "Chain Mail":
 		// Heavy armor: no dex bonus
 		baseAC = 16
-	case "plate", "Plate":
+	case "plate", "Plate", "plate armor", "Plate Armor":
 		// Heavy armor: no dex bonus
 		baseAC = 18
 	default:
-		// No armor: 10 + dex modifier
-		baseAC = 10 + dexMod
+		// No armor: check for Unarmored Defense (D&D 5e class features)
+		classLower := strings.ToLower(c.Class)
+		switch classLower {
+		case "barbarian":
+			// Barbarian Unarmored Defense: 10 + Dex + Con
+			baseAC = 10 + dexMod + Modifier(c.Con)
+		case "monk":
+			// Monk Unarmored Defense: 10 + Dex + Wis
+			baseAC = 10 + dexMod + Modifier(c.Wis)
+		default:
+			// Standard unarmored: 10 + dex modifier
+			baseAC = 10 + dexMod
+		}
 	}
 
 	// Shield bonus
