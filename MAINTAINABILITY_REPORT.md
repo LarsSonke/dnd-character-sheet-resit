@@ -552,3 +552,28 @@ This implementation demonstrates **professional-grade maintainability** through:
 8. ✅ **Easy extensibility** - New features require minimal changes
 
 **Result**: Future modifications (new spells, classes, or rule changes) require changes in exactly **one location**, with zero cascading effects. This is the gold standard for maintainability.
+
+---
+
+## Appendix: Complete Git Diff
+
+The complete implementation can be reviewed in the git diff patch file `exam_resit_spell_slots.patch` (3,444 lines), which shows all changes from the baseline commit `717b836` to the final implementation.
+
+**Commit history:**
+```
+c7f3f2f Fix: Add half plate armor and Unarmored Defense (Barbarian/Monk)
+9227d92 Clean up: remove redundant files and add comprehensive reports
+6f20ef5 Fix: eliminate duplicate spell slot calculation logic
+8675f2c Refactor: eliminate duplicate spell slot display code
+43a0b11 Implement spell slot usage tracking
+717b836 Resit start snapshot: initial commit of current project state
+```
+
+**Key changes include:**
+- Domain layer: `CastSpell()`, `GetSpellSlots()`, `CurrentSpellSlots` field
+- Service layer: `CastSpell()` orchestration method
+- CLI layer: `CastSpellCommand` implementation
+- Helper functions: `printSpellSlots()` for display reuse
+- Bug fixes: Armor Class calculation improvements (plate armor variants, Unarmored Defense)
+
+All changes follow the onion architecture pattern with proper separation of concerns.
