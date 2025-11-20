@@ -465,7 +465,7 @@ func (c *CastSpellCommand) Execute() error {
 	if err != nil {
 		// Format domain errors into user-friendly CLI messages
 		if errors.Is(err, domain.ErrNoSpellSlot) {
-			return fmt.Errorf("You don't have any spell slots available for that spell level!")
+			return fmt.Errorf("No spell slot available!")
 		}
 		return err
 	}
@@ -475,8 +475,6 @@ func (c *CastSpellCommand) Execute() error {
 	if err != nil {
 		return err
 	}
-
-	fmt.Printf("Successfully cast %s!\n\n", *c.spell)
 
 	// Print updated spell slots
 	printSpellSlots(character)
