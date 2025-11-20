@@ -557,10 +557,12 @@ This implementation demonstrates **professional-grade maintainability** through:
 
 ## Appendix: Complete Git Diff
 
-The complete implementation can be reviewed in the git diff patch file `exam_resit_spell_slots.patch` (3,584 lines), which shows all changes from the baseline commit `717b836` to the final implementation.
+The complete implementation can be reviewed in the git diff patch file `exam_resit_spell_slots.patch` (3,585 lines), which shows all changes from the baseline commit `717b836` to the final implementation.
 
 **Commit history:**
 ```
+005930a Fix: Remove success message from cast-spell output to match exam requirements
+537a8eb Final update: Complete git diff (3,584 lines) and commit history
 6805a45 Fix: CLI layer now fully controls error message formatting
 93c9205 Update report with error handling refactor
 1abf8b3 Refactor: Move error message formatting from domain to presentation layer
@@ -585,5 +587,6 @@ c7f3f2f Fix: Add half plate armor and Unarmored Defense (Barbarian/Monk)
 - Helper functions: `printSpellSlots()` for display reuse
 - Architecture: Proper separation - domain returns structured errors, presentation layers format user messages
 - Bug fixes: Armor Class calculation improvements (plate armor variants, Unarmored Defense)
+- Output: Matches exam specification exactly (spell slots only, no success messages)
 
 All changes follow the onion architecture pattern with proper separation of concerns.
